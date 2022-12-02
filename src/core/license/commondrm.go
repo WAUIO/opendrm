@@ -24,10 +24,11 @@ package license
 
 import (
 	"bytes"
-	"core/key"
 	"encoding/base64"
 	"encoding/binary"
 	"time"
+
+	"github.com/wauio/opendrm/src/core/key"
 )
 
 /*
