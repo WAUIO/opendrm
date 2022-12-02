@@ -19,17 +19,40 @@
 
 package server
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/rs/cors"
+)
 
 type KeyServer struct {
+	*http.ServeMux
 	server *http.Server
 }
 
+func healthz(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "text/plain")
+	w.Write([]byte("OK"))
+}
+
 func NewKeyServer(addr string) *KeyServer {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/healthz", healthz)
+
+	handler := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+		AllowedHeaders: []string{"Content-Type", "X-AxDRM-Message"},
+		Debug:          true,
+	}).Handler(mux)
+
+	server := &http.Server{
+		Addr:    addr,
+		Handler: handler,
+	}
+
 	return &KeyServer{
-		server: &http.Server{
-			Addr: addr,
-		},
+		mux,
+		server,
 	}
 }
 

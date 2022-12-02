@@ -97,7 +97,7 @@ func AcquireLicense(w http.ResponseWriter, r *http.Request) {
 
 	respData, err := json.Marshal(resp)
 	if err != nil {
-		log.Fatalf("Marshal response failed. Err=%s", err)
+		log.Printf("Marshal response failed. Err=%s", err)
 		return
 	}
 	w.Write(respData)
@@ -105,8 +105,8 @@ func AcquireLicense(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	keyServer := server.NewKeyServer(":8090")
-	http.HandleFunc("/genkey", GenKey)
-	http.HandleFunc("/acquirelicense", AcquireLicense)
+	keyServer.HandleFunc("/genkey", GenKey)
+	keyServer.HandleFunc("/acquirelicense", AcquireLicense)
 	if err := keyServer.Start(); err != nil {
 		log.Fatal(err)
 	}
