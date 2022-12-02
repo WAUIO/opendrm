@@ -78,13 +78,13 @@ func AcquireLicense(w http.ResponseWriter, r *http.Request) {
 	req := &LicenseRequest{}
 	err = json.Unmarshal(reqData, req)
 	if err != nil {
-		log.Printf("Unmarshal request failed. err=%s", err)
+		log.Printf("Failed to parse request, LicenseRequest expected. err=%s", err)
 		return
 	}
 	log.Printf("kids:%v", req)
 
 	// Query objects to be authorized
-	objs := []string{"07fba7c4-a5d3-43b2-973b-0b474a0b9ede"}
+	objs := []string{"07fba7c4-a5d3-43b2-973b-0b474a0b9edf"}
 	certId := "47946232-dad5-4b46-b1e6-4f0b581108dc"
 	// Generate license
 	lic := license.NewCommonLicense(req.Kids, objs, certId)
@@ -101,12 +101,13 @@ func AcquireLicense(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Write(respData)
-
 }
 
 func main() {
 	keyServer := server.NewKeyServer(":8090")
 	http.HandleFunc("/genkey", GenKey)
 	http.HandleFunc("/acquirelicense", AcquireLicense)
-	keyServer.Start()
+	if err := keyServer.Start(); err != nil {
+		log.Fatal(err)
+	}
 }
