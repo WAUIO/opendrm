@@ -42,6 +42,7 @@ func NewKeyServer(addr string) *KeyServer {
 	handler := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
 		AllowedHeaders: []string{"Content-Type", "X-AxDRM-Message"},
+		ExposedHeaders: []string{"X-AxDrm-ErrorMessage", "X-AxDRM-Message", "X-AxDRM-Identity", "X-AxDRM-Server", "X-AxDRM-Version", "X-Powered-By", "WWW-Authenticate"},
 		Debug:          true,
 	}).Handler(mux)
 

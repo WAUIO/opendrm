@@ -28,6 +28,7 @@ import (
 	"github.com/wauio/opendrm/src/core/key"
 	"github.com/wauio/opendrm/src/core/license"
 	"github.com/wauio/opendrm/src/core/server"
+	"github.com/wauio/opendrm/src/handler"
 )
 
 type KeyResp struct {
@@ -76,16 +77,23 @@ func AcquireLicense(w http.ResponseWriter, r *http.Request) {
 	log.Printf("data:%s", string(reqData))
 
 	req := &LicenseRequest{}
-	err = json.Unmarshal(reqData, req)
+	test := ""
+	err = json.Unmarshal(reqData, &test)
 	if err != nil {
+		w.Header().Add("X-AxDRM-ErrorMessage", err.Error())
 		log.Printf("Failed to parse request, LicenseRequest expected. err=%s", err)
-		return
+
+		//simulate
+		req.Kids = []string{"171E7392-D6CF-4755-986F-A11330659179"}
+		req.DeviceId = "simulator"
+
+		// return
 	}
 	log.Printf("kids:%v", req)
 
 	// Query objects to be authorized
 	objs := []string{"07fba7c4-a5d3-43b2-973b-0b474a0b9edf"}
-	certId := "47946232-dad5-4b46-b1e6-4f0b581108dc"
+	certId := "6C37D30C-881B-1AE7-9F44-C0B25715AF36"
 	// Generate license
 	lic := license.NewCommonLicense(req.Kids, objs, certId)
 	licenseStr := lic.Base64String()
@@ -95,18 +103,24 @@ func AcquireLicense(w http.ResponseWriter, r *http.Request) {
 		Licenses: []string{licenseStr},
 	}
 
-	respData, err := json.Marshal(resp)
-	if err != nil {
-		log.Printf("Marshal response failed. Err=%s", err)
-		return
-	}
-	w.Write(respData)
+	// respData, err := json.Marshal(resp)
+	// if err != nil {
+	// 	log.Printf("Marshal response failed. Err=%s", err)
+	// 	w.Header().Add("X-AxDRM-ErrorMessage", err.Error())
+	// 	return
+	// }
+	w.Header().Add("Content-Type", "application/octet-stream")
+	w.Header().Add("X-AxDRM-Identity", resp.DeviceId)
+	w.Header().Add("X-AxDRM-Server", "elacity_drm")
+	w.Header().Add("X-AxDRM-Version", "0.1.0")
+	w.Write(lic.Serialize(true, true))
 }
 
 func main() {
 	keyServer := server.NewKeyServer(":8090")
 	keyServer.HandleFunc("/genkey", GenKey)
 	keyServer.HandleFunc("/acquirelicense", AcquireLicense)
+	keyServer.HandleFunc("/acquirelicense/clearkey", handler.AcquireLicenseForClearKey)
 	if err := keyServer.Start(); err != nil {
 		log.Fatal(err)
 	}
