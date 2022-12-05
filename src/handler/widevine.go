@@ -12,6 +12,8 @@ import (
 // AES key and IV for the provider "widevine_test".
 // Use these test keys for testing or integration tests.
 var (
+	provider = "widevine_test"
+
 	key = []byte{
 		0x1a, 0xe8, 0xcc, 0xd0, 0xe7, 0x98, 0x5c, 0xc0,
 		0xb6, 0x20, 0x3a, 0x55, 0x85, 0x5a, 0x10, 0x34,
@@ -25,7 +27,9 @@ var (
 
 // Test contentID
 // Test MPD: https://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel-dash-widevine.ism/.mpd
-const contentID = "fkj3ljaSdfalkr3j"
+const contentID = "7C100E91DF654FAA8226396D86E76B85"
+
+//const contentID = ""
 
 func AcquireLicenseForWidevive(w http.ResponseWriter, r *http.Request) {
 	// Read bytes from license request.
@@ -36,7 +40,7 @@ func AcquireLicenseForWidevive(w http.ResponseWriter, r *http.Request) {
 	options := widevine.Options{
 		Key:      key,
 		IV:       iv,
-		Provider: "widevine_test",
+		Provider: provider,
 	}
 	wv := widevine.New(options)
 

@@ -17,7 +17,7 @@
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package main
+package application
 
 import (
 	"encoding/json"
@@ -116,8 +116,9 @@ func AcquireLicense(w http.ResponseWriter, r *http.Request) {
 	w.Write(lic.Serialize(true, true))
 }
 
-func main() {
-	keyServer := server.NewKeyServer(":8090")
+func Bootstrap(addr string) {
+	log.Printf("running on %s", addr)
+	keyServer := server.NewKeyServer(addr)
 	keyServer.HandleFunc("/genkey", GenKey)
 	keyServer.HandleFunc("/acquirelicense", AcquireLicense)
 	keyServer.HandleFunc("/acquirelicense/clearkey", handler.AcquireLicenseForClearKey)

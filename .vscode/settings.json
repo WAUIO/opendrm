@@ -1,0 +1,9 @@
+{
+  "go.useLanguageServer": true,
+  "gopls": {
+    "analyses": {
+       "simplifycompositelit": false, 
+       "composites": false
+    }
+  }
+}

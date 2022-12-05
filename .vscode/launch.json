@@ -1,11 +1,42 @@
 {
   "configurations": [
     {
-      "name": "Debug License Server",
+      "name": "Bootstrap (default)",
       "type": "go",
       "request": "launch",
       "mode": "debug",
-      "program": "${workspaceFolder}/src/app/main.go"
-    }
+      "program": "${workspaceRoot}",
+      "args": [
+        "bootstrap", "--port", "8090"
+      ]
+    },
+    {
+      "name": "Debug cli tool",
+      "type": "go",
+      "request": "launch",
+      "mode": "debug",
+      "program": "${workspaceRoot}",
+      "args": [
+        "tool", "widevine:sign",
+        "--aes-key", "1ae8ccd0e7985cc0b6203a55855a1034afc252980e970ca90e5202689f947ab9",
+        "--aes-iv", "d58ce954203b7c9a9a9d467f59839249",
+        "ewogICJjb250ZW50X2lkIjogIlptdHFNMnhxWVZOa1ptRnNhM0l6YWc9PSIsCiAgInRyYWNrcyI6IFsKICAgIHsgInR5cGUiOiAiU0QiIH0sCiAgICB7ICJ0eXBlIjogIkhEIiB9LAogICAgeyAidHlwZSI6ICJBVURJTyIgfQogIF0sCiAgImRybV90eXBlcyI6IFsgIldJREVWSU5FIiBdLAogICJwb2xpY3kiOiAiIgp9Cg=="
+      ]
+    },
+    {
+      "name": "Debug widevine:gen",
+      "type": "go",
+      "request": "launch",
+      "mode": "debug",
+      "program": "${workspaceRoot}",
+      "args": [
+        "tool", "widevine:gen",
+        "--aes-key", "1ae8ccd0e7985cc0b6203a55855a1034afc252980e970ca90e5202689f947ab9",
+        "--aes-iv", "d58ce954203b7c9a9a9d467f59839249",
+        "--track", "HD",
+        "--drm-type", "WIDEVINE",
+        "7C100E91DF654FAA8226396D86E76B85"
+      ]
+    }    
   ]
 }
