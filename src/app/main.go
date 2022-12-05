@@ -121,6 +121,7 @@ func main() {
 	keyServer.HandleFunc("/genkey", GenKey)
 	keyServer.HandleFunc("/acquirelicense", AcquireLicense)
 	keyServer.HandleFunc("/acquirelicense/clearkey", handler.AcquireLicenseForClearKey)
+	keyServer.HandleFunc("/acquirelicense/widevine", handler.AcquireLicenseForWidevive)
 	if err := keyServer.Start(); err != nil {
 		log.Fatal(err)
 	}

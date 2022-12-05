@@ -16,7 +16,7 @@ type ClearKeyRequest struct {
 	Type string   `json:"type"`
 }
 
-type ClearKeySet struct {
+type JsonWebKey struct {
 	Key string  `json:"k"`
 	Kty string  `json:"kty"`
 	Kid string  `json:"kid"`
@@ -24,10 +24,11 @@ type ClearKeySet struct {
 }
 
 type ClearKeyResponse struct {
-	Keys []ClearKeySet `json:"keys"`
-	Type string        `json:"type"`
+	Keys []JsonWebKey `json:"keys"`
+	Type string       `json:"type"`
 }
 
+// https://w3c.github.io/encrypted-media/#clear-key-request-format
 func AcquireLicenseForClearKey(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
@@ -45,12 +46,12 @@ func AcquireLicenseForClearKey(w http.ResponseWriter, r *http.Request) {
 	}
 
 	keyset := &ClearKeyResponse{
-		Keys: []ClearKeySet{},
+		Keys: []JsonWebKey{},
 		Type: req.Type,
 	}
 
 	for _, k := range req.Kids {
-		ck := ClearKeySet{
+		ck := JsonWebKey{
 			// @todo: find a way to couple a kid with a key
 			// for now it's hard-coded for test
 			Key: "ihawK6q5S0mzeizD0FRRig",
