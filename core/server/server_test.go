@@ -24,13 +24,10 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/wauio/opendrm/src/core/key"
+	"github.com/wauio/opendrm/core/key"
 )
 
 func GenKey(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
-	//kid := r.Form["kid"]
-
 	kengen := key.NewKeyGenerator(nil)
 	key, kid := kengen.GenRandKey()
 	resp := struct {

@@ -28,7 +28,7 @@ import (
 	"encoding/binary"
 	"time"
 
-	"github.com/wauio/opendrm/src/core/key"
+	"github.com/wauio/opendrm/core/key"
 )
 
 /*

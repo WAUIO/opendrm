@@ -25,10 +25,10 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/wauio/opendrm/src/core/key"
-	"github.com/wauio/opendrm/src/core/license"
-	"github.com/wauio/opendrm/src/core/server"
-	"github.com/wauio/opendrm/src/handler"
+	"github.com/wauio/opendrm/core/key"
+	"github.com/wauio/opendrm/core/license"
+	"github.com/wauio/opendrm/core/server"
+	"github.com/wauio/opendrm/handler"
 )
 
 type KeyResp struct {

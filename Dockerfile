@@ -3,8 +3,8 @@ FROM golang:1.17 as builder
 ENV ROOTPATH=github.com/wauio/elacity-drm
 ENV GO111MODULE=on
 
-ADD . /go/src/${ROOTPATH}
-WORKDIR /go/src/${ROOTPATH}
+ADD . /go${ROOTPATH}
+WORKDIR /go${ROOTPATH}
 RUN CGO_ENABLED=0 GOOS=linux \
       && go build -ldflags "-X github.com/open-zhy/elacity-drm/cmd.Version=$(git describe --tags) -X github.com/open-zhy/ibcore/cmd.Build=$(date +'%Y%m%d%H%M%S')" -a -o /go/bin/elacity-drm
 

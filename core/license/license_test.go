@@ -36,7 +36,7 @@ func init() {
 		panic(err)
 	}
 
-	rootDir = path.Join(currentPath, "../../..")
+	rootDir = path.Join(currentPath, "../..")
 }
 
 func TestNewCommonLicense(t *testing.T) {
@@ -48,7 +48,7 @@ func TestNewCommonLicense(t *testing.T) {
 	sum := sha1.Sum(cl.Serialize(false, false))
 	hashed = sum[:]
 
-	SetPemFile(rootDir + "/test/rsa_private_key.pem")
+	SetPemFile(rootDir + "/__fixtures/rsa_private_key.pem")
 	comnLicenseSig, _ = cl.Sign(false)
 	//t.Logf("common license: %s", cl.Base64String())
 }
@@ -59,13 +59,13 @@ func TestNewChinaDrmLicense(t *testing.T) {
 	certId := "b8c35868-4b94-4ad9-a0bc-c85e9a03b1de"
 	cdl := NewChinaDrmLicense(12345678900, kids, objs, certId)
 
-	SetPemFile(rootDir + "/test/rsa_private_key.pem")
+	SetPemFile(rootDir + "/__fixtures/rsa_private_key.pem")
 	cdl.Sign(false)
 	//t.Logf("chinadrm license: %s", cdl.Base64String())
 }
 
 func TestVerify(t *testing.T) {
-	SetPemFile(rootDir + "/test/rsa_public_key.pem")
+	SetPemFile(rootDir + "/__fixtures/rsa_public_key.pem")
 	err := Verify(hashed, comnLicenseSig)
 	if err != nil {
 		t.Fatalf("Verify failed.")

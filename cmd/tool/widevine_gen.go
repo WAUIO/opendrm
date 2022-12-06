@@ -8,7 +8,7 @@ import (
 	"github.com/alfg/widevine"
 	"github.com/spf13/cobra"
 
-	"github.com/wauio/opendrm/src/core/key"
+	"github.com/wauio/opendrm/core/key"
 )
 
 var (

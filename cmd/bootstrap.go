@@ -5,8 +5,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-
-	"github.com/wauio/opendrm/src/application"
+	"github.com/wauio/opendrm/application"
 )
 
 var serverPort uint
